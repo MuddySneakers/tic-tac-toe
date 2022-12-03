@@ -1,5 +1,5 @@
-import * as ttt from "tic-tac-toe";
-import { memory } from "tic-tac-toe/tic_tac_toe_bg";
+import * as ttt from "../pkg/tic_tac_toe.js";
+import { memory } from "../pkg/tic_tac_toe_bg.js";
 
 const BANNER_Y = 100;
 const BUTTON_RADII = 5;
