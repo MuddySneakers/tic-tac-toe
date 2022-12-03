@@ -1,5 +1,6 @@
-import * as ttt from "tic-tac-toe";
-import { memory } from "tic-tac-toe/tic_tac_toe_bg";
+import init from "../pkg/tic_tac_toe.js";
+import * as ttt from "../pkg/tic_tac_toe.js";
+import wasm from "../pkg/tic_tac_toe.js";
 
 const BANNER_Y = 100;
 const BUTTON_RADII = 5;
@@ -165,7 +166,9 @@ function drawGame(ctx) {
     ctx.lineWidth = 3;
 
     const cellsPtr = game_state.cells();
-    const cells = new Uint8Array(memory.buffer, cellsPtr, BOARD_WIDTH * BOARD_HEIGHT);
+    console.log("wasm: ", wasm);
+    console.log("wasm.memory: ", wasm.memory);
+    const cells = new Uint8Array(wasm.memory.buffer, cellsPtr, BOARD_WIDTH * BOARD_HEIGHT);
 
     for (let y = 0; y < BOARD_HEIGHT; y++) {
         for (let x = 0; x < BOARD_WIDTH; x++) {
@@ -252,7 +255,7 @@ function gameMouseMoveHandler(event) {
     var y = event.clientY - rect.top;
     
     const cellsPtr = game_state.cells();
-    const cells = new Uint8Array(memory.buffer, cellsPtr, BOARD_WIDTH * BOARD_HEIGHT);
+    const cells = new Uint8Array(wasm.memory.buffer, cellsPtr, BOARD_WIDTH * BOARD_HEIGHT);
 
     if (typeof game_state.has_winner() === 'undefined') {
         for (let cy = 0; cy < BOARD_HEIGHT; cy++) {
@@ -300,7 +303,7 @@ function gameMouseClickHandler(event) {
     var y = event.clientY - rect.top;
     
     const cellsPtr = game_state.cells();
-    const cells = new Uint8Array(memory.buffer, cellsPtr, BOARD_WIDTH * BOARD_HEIGHT);
+    const cells = new Uint8Array(wasm.memory.buffer, cellsPtr, BOARD_WIDTH * BOARD_HEIGHT);
 
     if (typeof game_state.has_winner() === 'undefined') {
         for (let cy = 0; cy < BOARD_HEIGHT; cy++) {
@@ -345,12 +348,14 @@ function mouseClickHandler(event) {
 canvas.addEventListener("mousemove", mouseMoveHandler);
 canvas.addEventListener("click", mouseClickHandler);
 
-var myFont = new FontFace('ChalkboardFont', 'url(assets/ChalkboardByMartaVanEck-gvpp.ttf)');
+var myFont = new FontFace('ChalkboardFont', 'url(www/assets/ChalkboardByMartaVanEck-gvpp.ttf)');
 
-myFont.load().then(function(font){
-
-    // with canvas, if this is ommited won't work
-    document.fonts.add(font);
+function run() {
     drawBanner(canvas);
     drawBody(canvas);
+}
+
+myFont.load().then(function(font){
+    document.fonts.add(font);
+    init().then(run)
 });
