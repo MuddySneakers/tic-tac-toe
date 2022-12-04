@@ -165,6 +165,10 @@ impl Game {
         self.grid.as_ptr()
     }
 
+    pub fn get_cell(&self, x: usize, y: usize) -> Cell {
+        self.grid[Self::xy_to_index(x, y)]
+    }
+
     pub fn xy_to_index(x: usize, y: usize) -> usize {
         y * WIDTH + x
     }
