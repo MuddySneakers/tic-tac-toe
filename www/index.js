@@ -167,6 +167,7 @@ function drawGame(ctx) {
 
     for (let y = 0; y < BOARD_HEIGHT; y++) {
         for (let x = 0; x < BOARD_WIDTH; x++) {
+            const idx = ttt.Game.xy_to_index(x, y);
             if (board_cell_hover[idx]) {
                 ctx.fillStyle = "gray"
                 ctx.beginPath();
