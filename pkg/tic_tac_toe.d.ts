@@ -58,6 +58,9 @@ export interface InitOutput {
   readonly game_has_winner: (a: number) => number;
   readonly game_do_user_move: (a: number, b: number, c: number) => void;
   readonly game_do_comp_move: (a: number, b: number) => void;
+  readonly __wbindgen_free: (a: number, b: number) => void;
+  readonly __wbindgen_malloc: (a: number) => number;
+  readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_exn_store: (a: number) => void;
 }
 

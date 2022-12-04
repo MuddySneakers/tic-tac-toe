@@ -9,4 +9,7 @@ export function game_xy_to_index(a: number, b: number): number;
 export function game_has_winner(a: number): number;
 export function game_do_user_move(a: number, b: number, c: number): void;
 export function game_do_comp_move(a: number, b: number): void;
+export function __wbindgen_free(a: number, b: number): void;
+export function __wbindgen_malloc(a: number): number;
+export function __wbindgen_realloc(a: number, b: number, c: number): number;
 export function __wbindgen_exn_store(a: number): void;
