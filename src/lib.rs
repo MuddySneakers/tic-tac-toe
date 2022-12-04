@@ -154,6 +154,9 @@ impl Game {
 #[wasm_bindgen]
 impl Game {
     pub fn new() -> Game {
+        #[cfg(feature = "console_error_panic_hook")]
+        console_error_panic_hook::set_once();
+
         Self {
             grid: [Cell::Blank; WIDTH * HEIGHT],
             turn_o: false,
