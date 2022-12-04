@@ -253,7 +253,7 @@ function gameMouseMoveHandler(event) {
         for (let cy = 0; cy < BOARD_HEIGHT; cy++) {
             for (let cx = 0; cx < BOARD_WIDTH; cx++) {
                 const idx = ttt.Game.xy_to_index(cx, cy);
-                const cell = game_state.get_cell(x, y);
+                const cell = game_state.get_cell(cx, cy);
                 board_cell_hover[idx] =
                     ((cell === ttt.Cell.Blank) &&
                      (x > GAME_BOARD_LEFT + cx * GAME_CELL_X) && (x < GAME_BOARD_LEFT + (cx + 1) * GAME_CELL_X) &&
@@ -299,7 +299,7 @@ function gameMouseClickHandler(event) {
         for (let cy = 0; cy < BOARD_HEIGHT; cy++) {
             for (let cx = 0; cx < BOARD_WIDTH; cx++) {
                 const idx = ttt.Game.xy_to_index(x, y);
-                const cell = game_state.get_cell(x, y);
+                const cell = game_state.get_cell(cx, cy);
                 if ((cell == ttt.Cell.Blank) &&
                     (x > GAME_BOARD_LEFT + cx * GAME_CELL_X) && (x < GAME_BOARD_LEFT + (cx + 1) * GAME_CELL_X) &&
                     (y > GAME_BOARD_TOP + cy * GAME_CELL_Y) && (y < GAME_BOARD_TOP + (cy + 1) * GAME_CELL_Y)) {
