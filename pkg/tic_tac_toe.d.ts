@@ -24,6 +24,12 @@ export class Game {
 * @param {number} y
 * @returns {number}
 */
+  get_cell(x: number, y: number): number;
+/**
+* @param {number} x
+* @param {number} y
+* @returns {number}
+*/
   static xy_to_index(x: number, y: number): number;
 /**
 * @returns {number | undefined}
@@ -47,6 +53,7 @@ export interface InitOutput {
   readonly __wbg_game_free: (a: number) => void;
   readonly game_new: () => number;
   readonly game_cells: (a: number) => number;
+  readonly game_get_cell: (a: number, b: number, c: number) => number;
   readonly game_xy_to_index: (a: number, b: number) => number;
   readonly game_has_winner: (a: number) => number;
   readonly game_do_user_move: (a: number, b: number, c: number) => void;

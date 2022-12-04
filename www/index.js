@@ -165,15 +165,8 @@ function drawGame(ctx) {
     ctx.strokeStyle = "white";
     ctx.lineWidth = 3;
 
-    const cellsPtr = game_state.cells();
-    console.log("wasm: ", wasm);
-    console.log("wasm.memory: ", wasm.memory);
-    const cells = new Uint8Array(wasm.memory.buffer, cellsPtr, BOARD_WIDTH * BOARD_HEIGHT);
-
     for (let y = 0; y < BOARD_HEIGHT; y++) {
         for (let x = 0; x < BOARD_WIDTH; x++) {
-            const idx = ttt.Game.xy_to_index(x, y);
-
             if (board_cell_hover[idx]) {
                 ctx.fillStyle = "gray"
                 ctx.beginPath();
@@ -182,9 +175,10 @@ function drawGame(ctx) {
                 ctx.fillStyle = "white"
             }
 
-            if (cells[idx] == ttt.Cell.X) {
+            const cell = game_state.get_cell(x, y);
+            if (cell == ttt.Cell.X) {
                 ctx.fillText("X", GAME_BOARD_LEFT + x * GAME_CELL_X + GAME_CELL_TEXT_OFFSET_X, GAME_BOARD_TOP + y * GAME_CELL_Y + GAME_CELL_TEXT_OFFSET_Y);
-            } else if (cells[idx] == ttt.Cell.O) {
+            } else if (cell == ttt.Cell.O) {
                 ctx.fillText("O", GAME_BOARD_LEFT + x * GAME_CELL_X + GAME_CELL_TEXT_OFFSET_X, GAME_BOARD_TOP + y * GAME_CELL_Y + GAME_CELL_TEXT_OFFSET_Y);
             }
         }
@@ -253,16 +247,14 @@ function gameMouseMoveHandler(event) {
     var rect = canvas.getBoundingClientRect();
     var x = event.clientX - rect.left;
     var y = event.clientY - rect.top;
-    
-    const cellsPtr = game_state.cells();
-    const cells = new Uint8Array(wasm.memory.buffer, cellsPtr, BOARD_WIDTH * BOARD_HEIGHT);
 
     if (typeof game_state.has_winner() === 'undefined') {
         for (let cy = 0; cy < BOARD_HEIGHT; cy++) {
             for (let cx = 0; cx < BOARD_WIDTH; cx++) {
                 const idx = ttt.Game.xy_to_index(cx, cy);
+                const cell = game_state.get_cell(x, y);
                 board_cell_hover[idx] =
-                    ((cells[idx] === ttt.Cell.Blank) &&
+                    ((cell === ttt.Cell.Blank) &&
                      (x > GAME_BOARD_LEFT + cx * GAME_CELL_X) && (x < GAME_BOARD_LEFT + (cx + 1) * GAME_CELL_X) &&
                      (y > GAME_BOARD_TOP + cy * GAME_CELL_Y) && (y < GAME_BOARD_TOP + (cy + 1) * GAME_CELL_Y));
             }
@@ -301,16 +293,13 @@ function gameMouseClickHandler(event) {
     var rect = canvas.getBoundingClientRect();
     var x = event.clientX - rect.left;
     var y = event.clientY - rect.top;
-    
-    const cellsPtr = game_state.cells();
-    const cells = new Uint8Array(wasm.memory.buffer, cellsPtr, BOARD_WIDTH * BOARD_HEIGHT);
 
     if (typeof game_state.has_winner() === 'undefined') {
         for (let cy = 0; cy < BOARD_HEIGHT; cy++) {
             for (let cx = 0; cx < BOARD_WIDTH; cx++) {
-                const idx = ttt.Game.xy_to_index(cx, cy);
-
-                if ((cells[idx] == ttt.Cell.Blank) &&
+                const idx = ttt.Game.xy_to_index(x, y);
+                const cell = game_state.get_cell(x, y);
+                if ((cell == ttt.Cell.Blank) &&
                     (x > GAME_BOARD_LEFT + cx * GAME_CELL_X) && (x < GAME_BOARD_LEFT + (cx + 1) * GAME_CELL_X) &&
                     (y > GAME_BOARD_TOP + cy * GAME_CELL_Y) && (y < GAME_BOARD_TOP + (cy + 1) * GAME_CELL_Y)) {
                     game_state.do_user_move(cx, cy);

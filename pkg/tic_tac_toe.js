@@ -102,6 +102,15 @@ export class Game {
     * @param {number} y
     * @returns {number}
     */
+    get_cell(x, y) {
+        const ret = wasm.game_get_cell(this.ptr, x, y);
+        return ret >>> 0;
+    }
+    /**
+    * @param {number} x
+    * @param {number} y
+    * @returns {number}
+    */
     static xy_to_index(x, y) {
         const ret = wasm.game_xy_to_index(x, y);
         return ret >>> 0;
@@ -328,4 +337,3 @@ async function init(input) {
 
 export { initSync }
 export default init;
-export { wasm }
